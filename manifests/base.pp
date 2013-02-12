@@ -23,7 +23,7 @@ class shorewall::base {
       lens    => 'Shellvars.lns',
       incl    => '/etc/shorewall/shorewall.conf',
       notify  => Service[shorewall],
-      require => Class[augeas];
+      require => [ Package['shorewall'], Class[augeas] ];
     }
 
     service{shorewall:
