@@ -1,10 +1,11 @@
 define shorewall::host(
     $zone,
-    $options = 'tcpflags,blacklist,norfc1918',
+    $host,
+    $options = 'tcpflags',
     $order='100'
 ){
+
     shorewall::entry{"hosts-${order}-${name}":
-        line => "${zone} ${name} ${options}"
+        line => "#${name}\n${zone} ${host} ${options}"
     }
 }
-

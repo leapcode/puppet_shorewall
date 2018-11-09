@@ -1,6 +1,6 @@
 # things needed on centos
 class shorewall::centos inherits shorewall::base {
-  if versioncmp($::operatingsystemmajrelease,'5') > 0 {
+  if $::operatingsystemmajrelease == '6' {
     augeas{'enable_shorewall':
       context => '/files/etc/sysconfig/shorewall',
       changes => 'set startup 1',
@@ -8,6 +8,12 @@ class shorewall::centos inherits shorewall::base {
       incl    => '/etc/sysconfig/shorewall',
       require => Package['shorewall'],
       notify  => Exec['shorewall_check'],
+    }
+    if $shorewall::with_shorewall6 {
+      package{'perl-Socket6':
+        ensure => 'installed',
+        before => Package['shorewall6'],
+      }
     }
   }
 }
